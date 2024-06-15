@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Assessor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Adicionar Assessor</h2>
+        <form method="POST" action="{{ url_for('add_assessor') }}">
+            <label for="NOME">Nome:</label>
+            <input type="text" name="NOME" id="NOME" required>
+
+            <label for="LOGIN">Login:</label>
+            <input type="text" name="LOGIN" id="LOGIN" required>
+
+            <label for="SENHA">Senha:</label>
+            <input type="password" name="SENHA" id="SENHA" required>
+
+            <label for="EMAIL">Email:</label>
+            <input type="email" name="EMAIL" id="EMAIL" required>
+
+            <label for="ADMINISTRADOR">Administrador:</label>
+            <input type="checkbox" name="ADMINISTRADOR" id="ADMINISTRADOR">
+
+            <button type="submit">Adicionar Assessor</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>
+

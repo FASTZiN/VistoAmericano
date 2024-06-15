@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Assessor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="delete-assessor-container">
+        <h2>Excluir Assessor</h2>
+        <form method="POST" action="{{ url_for('delete_assessor') }}">
+            <label for="assessor_id">Selecione o Assessor:</label>
+            <select name="assessor_id" id="assessor_id" required>
+                {% for assessor in assessores %}
+                <option value="{{ assessor.ID_ASSESSOR }}">{{ assessor.NOME }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Excluir Assessor</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>
+

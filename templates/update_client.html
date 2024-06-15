@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Atualizar Cliente</h2>
+        <form method="POST" action="{{ url_for('save_client') }}">
+            <input type="hidden" name="ID_CLIENTE" value="{{ cliente.ID_CLIENTE }}">
+            <label for="NOME">Nome:</label>
+            <input type="text" name="NOME" value="{{ cliente.NOME }}">
+            
+            <label for="EMAIL">Email:</label>
+            <input type="email" name="EMAIL" value="{{ cliente.EMAIL }}">
+            
+            <label for="SENHA">Senha:</label>
+            <input type="text" name="SENHA" value="{{ cliente.SENHA }}">
+
+            <label for="DS160">DS160:</label>
+            <input type="text" name="DS160" id="DS160" value="{{ cliente.DS160 }}" placeholder="Deixe em branco para NULL">
+
+            <label for="NOME_CONTATO">Nome do Contato:</label>
+            <input type="text" name="NOME_CONTATO" value="{{ contato.NOME_CONTATO }}">
+
+            <label for="TEL_CONTATO">Telefone do Contato:</label>
+            <input type="text" name="TEL_CONTATO" value="{{ contato.TEL_CONTATO }}">
+
+            <button type="submit">Salvar</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>
+

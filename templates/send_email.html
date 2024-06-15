@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar E-mail</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='send_email.css') }}">
+    <script>
+        function updateClientEmail() {
+            var clients = {{ clients | tojson }};
+            var client_id = document.getElementById('client_id').value;
+            var client = clients.find(client => client.ID_CLIENTE == client_id);
+            document.getElementById('client_email').value = client ? client.EMAIL : '';
+        }
+    </script>
+</head>
+<body>
+    <div class="send-email-container">
+        <h2>Enviar E-mail</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('send_email') }}" enctype="multipart/form-data">
+            <label for="client_id">Selecione o Cliente:</label>
+            <select name="client_id" id="client_id" onchange="updateClientEmail()" required>
+                <option value="" disabled selected>Selecione um cliente</option>
+                {% for client in clients %}
+                    <option value="{{ client.ID_CLIENTE }}">{{ client.NOME }}</option>
+                {% endfor %}
+            </select>
+            <label for="client_email">E-mail do Cliente:</label>
+            <input type="email" name="client_email" id="client_email" required>
+            <label for="assessor_email">Seu E-mail:</label>
+            <input type="email" name="assessor_email" id="assessor_email" required>
+            <label for="email_subject">Assunto:</label>
+            <input type="text" name="email_subject" id="email_subject" required>
+            <label for="email_body">Mensagem:</label>
+            <textarea name="email_body" id="email_body" rows="4" required></textarea>
+            <label for="files">Anexar Arquivos (máximo 2):</label>
+            <input type="file" name="files" id="files" multiple>
+            <button type="submit">Enviar E-mail</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+

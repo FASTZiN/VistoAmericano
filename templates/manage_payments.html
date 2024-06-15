@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Pagamentos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='manage_payments.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Gerenciar Pagamentos</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <label for="client_id">Selecione o Cliente:</label>
+        <select name="client_id" id="client_id" required>
+            {% for client in clients %}
+            <option value="{{ client.ID_CLIENTE }}">{{ client.NOME }}</option>
+            {% endfor %}
+        </select>
+        
+        <div class="button-container">
+            <button id="create-button">Criar Pagamento</button>
+            <button id="update-button">Atualizar Pagamento</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </div>
+
+        <form method="POST" action="{{ url_for('manage_payments') }}" id="create-form" style="display: none;">
+            <input type="hidden" name="action" value="create">
+            <input type="hidden" name="client_id" id="create-client-id">
+            <label for="valor_pago">Valor Pago:</label>
+            <input type="number" name="valor_pago" id="valor_pago" required><br>
+            <label for="valor_cobrado">Valor Cobrado:</label>
+            <input type="number" name="valor_cobrado" id="valor_cobrado" required><br>
+            <button type="submit">Salvar</button>
+        </form>
+
+        <form method="POST" action="{{ url_for('manage_payments') }}" id="update-form" style="display: none;">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="client_id" id="update-client-id">
+            <label for="">Valor Pago:</label>
+            <input type="number" name="valor_pago" id="update-valor_pago" required><br>
+            <label for="valor_cobrado">Valor Cobrado:</label>
+            <input type="number" name="valor_cobrado" id="update-valor_cobrado" required><br>
+            <label for="assessor">Assessor:</label>
+            <input type="text" name="nome_assessor" id="update-nome_assessor" readonly><br>
+            <button type="submit">Atualizar</button>
+        </form>
+        <div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('create-button').addEventListener('click', function() {
+            document.getElementById('create-client-id').value = document.getElementById('client_id').value;
+            document.getElementById('create-form').style.display = 'block';
+            document.getElementById('update-form').style.display = 'none';
+        });
+
+        document.getElementById('update-button').addEventListener('click', function() {
+            var clientId = document.getElementById('client_id').value;
+            document.getElementById('update-client-id').value = clientId;
+            fetch('/get-payment-info/' + clientId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        document.getElementById('update-valor_pago').value = data.valor_pago;
+                        document.getElementById('update-valor_cobrado').value = data.valor_cobrado;
+                        document.getElementById('update-nome_assessor').value = data.nome_assessor;
+                        document.getElementById('update-form').style.display = 'block';
+                        document.getElementById('create-form').style.display = 'none';
+                    } else {
+                        alert('Não existe pagamento para este cliente.');
+                        document.getElementById('update-form').style.display = 'none';
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
+

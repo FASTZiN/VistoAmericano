@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Informações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="update-assessor-container">
+        <h2>Atualizar Informações</h2>
+        <form method="POST" action="{{ url_for('save_assessor') }}">
+            <label for="NOME">Nome:</label>
+            <input type="text" name="NOME" id="NOME" value="{{ assessor.NOME }}" required>
+
+            <label for="LOGIN">Login:</label>
+            <input type="text" name="LOGIN" id="LOGIN" value="{{ assessor.LOGIN }}" required>
+
+            <label for="EMAIL">Email:</label>
+            <input type="email" name="EMAIL" id="EMAIL" value="{{ assessor.EMAIL }}" required>
+
+            <label for="SENHA">Senha:</label>
+            <input type="password" name="SENHA" id="SENHA" required>
+
+            <button type="submit">Salvar</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>

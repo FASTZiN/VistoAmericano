@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="delete-assessor-container">
+        <h2>Selecionar Cliente para Atualização</h2>
+        <form method="POST" action="{{ url_for('update_client') }}">
+            <label for="selected_name">Nome do Cliente:</label>
+            <select name="selected_name" id="selected_name">
+                {% for cliente in clientes %}
+                <option value="{{ cliente.NOME }}">{{ cliente.NOME }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Selecionar</button>
+        </form>
+        <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+    </div>
+</body>
+</html>

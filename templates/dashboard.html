@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Bem-vindo, {{ session['user_name'] }}!</h2>
+        <div class="button-container">
+            <div class="left-buttons">
+                <a href="{{ url_for('add_client') }}"><button>Adicionar Cliente</button></a>
+                <a href="{{ url_for('update_client') }}"><button>Atualizar Cliente</button></a>
+                <button id="delete-button">Excluir Cliente</button>
+                <a href="{{ url_for('send_email') }}"><button>Enviar Email</button></a>
+                <a href="{{ url_for('manage_payments') }}"><button>Gerenciar Pagamentos</button></a>
+            </div>
+            <div class="right-buttons">
+                <div class="dropdown">
+                    <button class="dropbtn">Ordenar</button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('sort', criteria='nome') }}">Por Nome</a>
+                        <a href="{{ url_for('sort', criteria='casv') }}">Por Agendamento CASV</a>
+                        <a href="{{ url_for('sort', criteria='consular') }}">Por Agendamento Consular</a>
+                    </div>
+                </div>
+                <a href="{{ url_for('update') }}"><button>Atualizar</button></a>
+                <a href="{{ url_for('update_assessor') }}"><button>Atualizar Informações</button></a>
+                <a href="{{ url_for('logout') }}"><button>Sair</button></a>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Assessor</th>
+                        <th>Contato</th>
+                        <th>Email</th>
+                        <th>Senha</th>
+                        <th>DS160</th>
+                        <th>Agendamento CASV</th>
+                        <th>Cidade CASV</th>
+                        <th>Agendamento Consular</th>
+                        <th>Cidade Consular</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente.NOME }}</td>
+                        <td>{{ cliente.NOME_ASSESSOR }}</td>
+                        <td>{{ cliente.NOME_CONTATO }} - {{ cliente.TEL_CONTATO }}</td>
+                        <td>{{ cliente.EMAIL }}</td>
+                        <td>{{ cliente.SENHA }}</td>
+                        <td>{{ cliente.DS160 }}</td>
+                        <td>{{ cliente.AGENDAMENTO_CASV }}</td>
+                        <td>{{ cliente.CIDADE_CASV }}</td>
+                        <td>{{ cliente.AGENDAMENTO_CONSULAR }}</td>
+                        <td>{{ cliente.CIDADE_CONSULAR }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if session['is_admin'] %}
+        <div class="admin-button-container">
+            <a href="{{ url_for('add_assessor') }}"><button>Adicionar Assessor</button></a>
+            <a href="{{ url_for('delete_assessor') }}"><button>Excluir Assessor</button></a>
+        </div>
+        {% endif %}
+
+        <!-- Modal for Delete Client -->
+        <div id="delete-modal" class="modal">
+            <div class="delete-assessor-container">
+                <span class="close">&times;</span>
+                <h2>Excluir Cliente</h2>
+                <form method="POST" action="{{ url_for('delete_client') }}">
+                    <label for="selected_name">Nome do Cliente:</label>
+                    <select name="selected_name" id="selected_name">
+                        {% for cliente in clientes %}
+                        <option value="{{ cliente.ID_CLIENTE }}">{{ cliente.NOME }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal script
+        var modal = document.getElementById("delete-modal");
+        var btn = document.getElementById("delete-button");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
+

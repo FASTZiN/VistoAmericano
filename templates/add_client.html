@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Adicionar Cliente</h2>
+        <form method="POST" action="{{ url_for('add_client') }}">
+            <label for="NOME">Nome:</label>
+            <input type="text" name="NOME" id="NOME" required>
+
+            <label for="EMAIL">Email:</label>
+            <input type="email" name="EMAIL" id="EMAIL" required>
+
+            <label for="SENHA">Senha:</label>
+            <input type="password" name="SENHA" id="SENHA" required>
+
+            <label for="DS160">DS160:</label>
+            <input type="text" name="DS160" id="DS160" placeholder="Deixe em branco para NULL">
+
+            <label for="NOME_CONTATO">Nome do Contato:</label>
+            <input type="text" name="NOME_CONTATO" id="NOME_CONTATO" required>
+
+            <label for="TEL_CONTATO">Telefone do Contato:</label>
+            <input type="tel" name="TEL_CONTATO" id="TEL_CONTATO" required>
+
+            <button type="submit">Adicionar Cliente</button>
+            <button onclick="location.href='{{ url_for('dashboard') }}'">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>
